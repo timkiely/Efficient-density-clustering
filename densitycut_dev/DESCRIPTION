@@ -1,0 +1,16 @@
+Package: densitycut
+Title: An Efficient and Versatile Topological Approach to Clustering Biological Data
+Version: 0.0.1
+Authors@R: person("Jiarui", "Ding", email = "jiaruid@cs.ubc.ca", role = c("aut", "cre"))
+Description: An efficient density-based clustering algorithm to analyze large-scale biological data. 
+Depends: R (>= 3.2.2)
+Imports:
+  ape (>= 3.3),
+  FNN (>= 1.1),
+  Matrix (>= 1.2-2),
+  mvtnorm (>= 1.0-2),
+  RcppAnnoy (>= 0.0.6)
+License: GPL (>= 2)
+LazyData: true
+Suggests: knitr
+VignetteBuilder: knitr
