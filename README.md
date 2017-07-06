@@ -121,3 +121,24 @@ message("Clustering Time: ",round((end_time-start_time)/60,2)," minutes")
 ```
 
     ## Clustering Time: 0.63 minutes
+
+We can make the map more visually appealing:
+
+``` r
+clust_original$cluster <- a$cluster
+
+library(ggmap)
+sbbox <- make_bbox(lon = clust_original$lon, lat = clust_original$lat, f = .1)
+suppressMessages({
+  sq_map <- get_map(location = sbbox, maptype="terrain-lines", source = "stamen",color = "bw")
+})
+
+ggmap(ggmap = sq_map)+
+  geom_point(data = clust_original %>% head(n=100000), aes(color = as.character(cluster)), size = 0.1, alpha = 0.5)+
+  scale_color_manual(values = col)+
+  coord_map()+
+  theme_minimal()+
+  theme(legend.position = "none")
+```
+
+![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)

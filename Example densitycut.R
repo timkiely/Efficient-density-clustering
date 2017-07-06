@@ -34,17 +34,19 @@ NeatPlot(x, col=col, pch=4, cex=0.5)
 
 
 
-
 # testing on taxi data ----------------------------------------------------
 
 library(sf)
 library(tidyverse)
-load("densitycut_dev/data/distinct.col.rda")
 
-taxi_rides_q1_2016_sf <- st_read("237 E 34th/carto_data/taxi_rides_q1_2016.geojson")
+clust_original <- st_read("data/taxi_rides_q1_2016.geojson")
 
-# hdbscan fails around 100,000 rows with this implementation. better to select a smaller sample
-clust_original <- taxi_rides_q1_2016_sf %>% head(100000) #filter(droppoff_month_lab == "MAR", droppoff_day_of_week %in% c("TUE"))
+# filter with a bouding box to simplify the final output 
+clust_original <- 
+  bind_cols(clust_original,
+            as_data_frame(clust_original %>% st_coordinates()) %>% rename("lon"=X,"lat"=Y)
+  ) %>% 
+  filter(lat > 40.6, lat < 40.9, lon > -74.25, lon < (-1*73.55))
 
 # matrix of lat/lon points
 clust_matrix <-
@@ -52,23 +54,35 @@ clust_matrix <-
   st_coordinates()
 
 
-N = nrow(clust_matrix)
-number.cluster = 30
-N = N / number.cluster
-
-K <- ceiling(log2(N * number.cluster))
+K <- 25
 x <- clust_matrix
+start_time <- Sys.time()
 a <- DensityCut(X=x, K=K
                 , alpha=0.85
                 , nu=seq(0.0, 1.0, by=0.05)
-                ,debug=FALSE
+                , debug=FALSE
                 , show.plot=F
                 , col = distinct.col)
+end_time <- Sys.time()
 
+# assign colors:
 col = AssignLabelColor(distinct.col, a$cluster)
 NeatPlot(x, col=col, pch=4, cex=0.5)
 
+message("Clustering Time: ",round((end_time-start_time)/60,2)," minutes")
 
+clust_original$cluster <- a$cluster
 
+library(ggmap)
+sbbox <- make_bbox(lon = clust_original$lon, lat = clust_original$lat, f = .1)
+suppressMessages({
+  sq_map <- get_map(location = sbbox, maptype="terrain-lines", source = "stamen",color = "bw")
+})
 
-
+ggmap(ggmap = sq_map)+
+  geom_point(data = clust_original %>% head(n=100000), aes(color = as.character(cluster)), size = 0.1, alpha = 0.5)+
+  scale_color_manual(values = col)+
+  coord_map()+
+  theme_minimal()+
+  theme(legend.position = "none")
+  
