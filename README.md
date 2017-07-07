@@ -19,7 +19,7 @@ library(tidyverse)
 load("densitycut_dev/data/distinct.col.rda")
 ```
 
-Inital example
+Initial example
 ==============
 
 ``` r
@@ -63,7 +63,7 @@ NeatPlot(x, col=col, pch=4, cex=0.5)
 Taxi data
 =========
 
-The following dataset was pre-processed and conveted to an sf object. It represents all trips which started from a single property in Kips Bay, Manhattan in Q1 of 2016. Each row represents the lat/lon of a drop-off point.
+The following dataset was pre-processed and conveted to an `sf` object. It represents all trips which started from a single property in Kips Bay, Manhattan in Q1 of 2016. Each row represents the lat/lon of a drop-off point.
 
 ``` r
 clust_original <- st_read("data/taxi_rides_q1_2016.geojson")
@@ -142,3 +142,5 @@ ggmap(ggmap = sq_map)+
 ```
 
 ![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
+
+Look at the granularity! You can even make out individual gates at the airport loops. Overall this is a fast, very useful clustering tool.
