@@ -19,8 +19,8 @@ library(tidyverse)
 load("densitycut_dev/data/distinct.col.rda")
 ```
 
-An iniital example (from the documentation)
-===========================================
+Inital example
+==============
 
 ``` r
 set.seed(0)
@@ -120,7 +120,7 @@ NeatPlot(x, col=col, pch=4, cex=0.5)
 message("Clustering Time: ",round((end_time-start_time)/60,2)," minutes")
 ```
 
-    ## Clustering Time: 0.63 minutes
+    ## Clustering Time: 0.65 minutes
 
 We can make the map more visually appealing:
 
