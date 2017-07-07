@@ -143,4 +143,4 @@ ggmap(ggmap = sq_map)+
 
 ![](README_files/figure-markdown_github/unnamed-chunk-4-1.png)
 
-Look at the granularity! You can even make out individual gates at the airport loops. Overall this is a fast, very useful clustering tool.
+Look at the granularity! You can even make out individual gates at the airport loops. Overall this is a fast, very useful clustering tool, albeit with sparse documentation.
